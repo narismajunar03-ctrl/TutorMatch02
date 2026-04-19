@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutor Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Inter", sans-serif;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --accent: #eff6ff;
+            --text: #0f172a;
+            --muted: #64748b;
+            --border: #e2e8f0;
+            --surface: #ffffff;
+            --background: #f8fafc;
+            --success-bg: #ecfdf3;
+            --success-text: #15803d;
+            --warning-bg: #fff7ed;
+            --warning-text: #c2410c;
+            --online-bg: #e0f2fe;
+            --online-text: #0369a1;
+            --face-bg: #ecfdf5;
+            --face-text: #047857;
+            --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+            --radius: 14px;
+        }
+
+        body {
+            background: var(--background);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 48px;
+            background: rgba(255, 255, 255, 0.96);
+            border-bottom: 1px solid var(--border);
+            backdrop-filter: blur(10px);
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--primary);
+            text-decoration: none;
+            letter-spacing: -0.4px;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--muted);
+            transition: color 0.2s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .login {
+            padding: 10px 16px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--primary);
+            font-weight: 600;
+            background: #fff;
+            transition: all 0.2s ease;
+        }
+
+        .login:hover {
+            background: var(--accent);
+            border-color: #bfdbfe;
+        }
+
+        .dashboard-container {
+            display: flex;
+            min-height: calc(100vh - 73px);
+        }
+
+        .sidebar {
+            width: 250px;
+            background: var(--surface);
+            border-right: 1px solid var(--border);
+            padding: 32px 20px;
+        }
+
+        .sidebar h2 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            color: var(--text);
+        }
+
+        .sidebar ul {
+            list-style: none;
+        }
+
+        .sidebar ul li {
+            margin-bottom: 10px;
+        }
+
+        .sidebar ul li a {
+            display: block;
+            padding: 12px 14px;
+            text-decoration: none;
+            color: var(--muted);
+            border-radius: 10px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .sidebar ul li a:hover {
+            background: var(--accent);
+            color: var(--primary);
+        }
+
+        .main-content {
+            flex: 1;
+            padding: 32px;
+        }
+
+        .dashboard-section {
+            margin-bottom: 32px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .section-header h2 {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .add-lesson-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 18px;
+            border: none;
+            border-radius: 10px;
+            background: var(--primary);
+            color: #fff;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s ease, transform 0.2s ease;
+        }
+
+        .add-lesson-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--surface);
+        }
+
+        th {
+            background: #f8fafc;
+            color: var(--muted);
+            text-align: left;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.2px;
+            padding: 16px 18px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        td {
+            padding: 16px 18px;
+            border-bottom: 1px solid var(--border);
+            font-size: 14px;
+            color: var(--text);
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover td {
+            background: #f8fbff;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-active {
+            background: var(--success-bg);
+            color: var(--success-text);
+        }
+
+        .status-pending {
+            background: var(--warning-bg);
+            color: var(--warning-text);
+        }
+
+        .calendar-wrapper {
+            padding: 24px;
+        }
+
+        .calendar-header {
+            margin-bottom: 20px;
+        }
+
+        .calendar-header h3 {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        .calendar-day {
+            min-height: 150px;
+            padding: 14px;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            /* ADD THIS */
+            max-height: 220px;
+            overflow-y: auto;
+        }
+
+        .calendar-day:hover {
+            border-color: #bfdbfe;
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.08);
+        }
+
+        .calendar-date {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text);
+            padding-bottom: 8px;
+            border-bottom: 1px solid #eef2f7;
+        }
+
+        .calendar-day-number {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .session-count {
+            font-size: 12px;
+            color: var(--muted);
+            font-weight: 600;
+        }
+
+        .sessions {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .session-item {
+            padding: 10px 12px;
+            border-radius: 10px;
+            background: #eff6ff;
+            border-left: 4px solid var(--primary);
+        }
+
+        .session-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 4px;
+        }
+
+        .session-time {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+
+        .session-subject {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .session-meta {
+            font-size: 12px;
+            color: var(--muted);
+            margin-top: 4px;
+        }
+
+        .session-type {
+            font-size: 11px;
+            font-weight: 700;
+            margin-top: 8px;
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 999px;
+        }
+
+        .session-type.online {
+            background: var(--online-bg);
+            color: var(--online-text);
+        }
+
+        .session-type.face {
+            background: var(--face-bg);
+            color: var(--face-text);
+        }
+
+        .empty-state {
+            padding: 20px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 14px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: #fff;
+            width: 100%;
+            max-width: 620px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 28px;
+            border-radius: 16px;
+            box-shadow: 0 24px 60px rgba(15, 23, 42, 0.18);
+            position: relative;
+        }
+
+        .modal-content::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .modal-content::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+
+        .modal-content h2 {
+            font-size: 22px;
+            margin-bottom: 20px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .close {
+            position: absolute;
+            top: 18px;
+            right: 20px;
+            font-size: 24px;
+            color: var(--muted);
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .close:hover {
+            color: var(--text);
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            font-size: 14px;
+            color: var(--text);
+            background: #fff;
+            outline: none;
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: #93c5fd;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.08);
+        }
+
+        .form-group select {
+            cursor: pointer;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 110px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 13px 16px;
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .submit-btn:hover {
+            background: var(--primary-dark);
+        }
+
+        @media (max-width: 1200px) {
+            .calendar-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 992px) {
+            .dashboard-container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+            }
+
+            .calendar-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 16px 20px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .main-content {
+                padding: 20px;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+
+            .calendar-grid,
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-content {
+                margin: 20px auto;
+                padding: 22px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            th, td {
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <a href="/" class="logo">TutorMatch</a>
+    <div class="nav-links">
+        <a href="/subject-list">Subjects</a>
+        <a href="#">Tutors</a>
+        <a href="#">About</a>
+        <a class="login" href="/logout">Logout</a>
+    </div>
+</div>
+
+<div class="dashboard-container">
+    <aside class="sidebar">
+        <h2>Dashboard</h2>
+        <ul>
+            <li><a href="#lessons">Lessons</a></li>
+            <li><a href="#calendar">Upcoming Sessions</a></li>
+            <li><a href="#students">Students</a></li>
+        </ul>
+    </aside>
+
+    <main class="main-content">
+        <section class="dashboard-section">
+            <div class="section-header">
+                <h2>Tutor Dashboard</h2>
+                <button class="add-lesson-btn" onclick="toggleModal()">Add New Lesson</button>
+            </div>
+        </section>
+
+        <section id="lessons" class="dashboard-section">
+            <div class="section-header">
+                <h2>My Lessons</h2>
+            </div>
+            <div class="card">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Lesson Name</th>
+                        <th>Subject</th>
+                        <th>Status</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="lesson : ${lessons}">
+                        <td th:text="${lesson.name}">Math Basics</td>
+                        <td th:text="${lesson.subject}">Mathematics</td>
+                        <td>
+                            <span class="status-badge status-active" th:text="${lesson.status}">Active</span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="calendar" class="dashboard-section">
+            <div class="section-header">
+                <h2>Upcoming Sessions</h2>
+            </div>
+
+            <div class="card calendar-wrapper">
+                <div class="calendar-header">
+                    <h3>April 2025</h3>
+                </div>
+
+                <div class="calendar-grid" th:if="${sessionsByDate != null and !#maps.isEmpty(sessionsByDate)}">
+                    <div class="calendar-day" th:each="entry : ${sessionsByDate}">
+                        <div class="calendar-date">
+                            <span class="calendar-day-number"
+                                  th:text="${#temporals.format(entry.key, 'dd')}">15</span>
+                            <span class="session-count"
+                                  th:text="${#lists.size(entry.value)} + ' session(s)'">2 session(s)</span>
+                        </div>
+
+                        <div class="sessions">
+                            <div class="session-item" th:each="session : ${entry.value}">
+                                <div class="session-top">
+                                    <span class="session-time" th:text="${session.time}">10:00 AM</span>
+                                </div>
+
+                                <div class="session-subject" th:text="${session.subject}">English</div>
+                                <div class="session-meta" th:text="${session.title}">Grammar Review</div>
+
+                                <div class="session-type"
+                                     th:classappend="${session.mode == 'ONLINE'} ? 'online' : 'face'"
+                                     th:text="${session.mode == 'ONLINE'} ? 'Online' : 'Face-to-Face'">
+                                    Online
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="empty-state" th:if="${sessionsByDate == null or #maps.isEmpty(sessionsByDate)}">
+                    No upcoming sessions available.
+                </div>
+            </div>
+        </section>
+
+        <section id="students" class="dashboard-section">
+            <div class="section-header">
+                <h2>My Students</h2>
+            </div>
+            <div class="card">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Student Name</th>
+                        <th>Subject</th>
+                        <th>Progress</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="student : ${students}">
+                        <td th:text="${student.name}">John Doe</td>
+                        <td th:text="${student.subject}">Mathematics</td>
+                        <td th:text="${student.progress}">75%</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+</div>
+
+<div id="lessonModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="toggleModal()">&times;</span>
+        <h2>Add New Lesson</h2>
+
+        <form id="lessonForm">
+            <div class="form-group">
+                <label for="title">Lesson Title</label>
+                <input type="text" id="title" name="title" placeholder="Enter lesson title" required>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" name="description" placeholder="Enter lesson description" required></textarea>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="subject">Subject</label>
+                    <input type="text" id="subject" name="subject" placeholder="Enter subject" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="price">Price</label>
+                    <input type="number" id="price" name="price" placeholder="Enter price" required>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="sessionDate">Session Date</label>
+                    <input type="date" id="sessionDate" name="sessionDate" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="sessionTime">Session Time</label>
+                    <input type="time" id="sessionTime" name="sessionTime" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="mode">Session Type</label>
+                <select id="mode" name="mode" required onchange="toggleLocationField()">
+                    <option value="">Select session type</option>
+                    <option value="ONLINE">Online</option>
+                    <option value="FACE_TO_FACE">Face-to-Face</option>
+                </select>
+            </div>
+
+            <div class="form-group" id="locationGroup" style="display: none;">
+                <label for="location">Location</label>
+                <input type="text" id="location" name="location" placeholder="Enter meeting location">
+            </div>
+
+            <div class="form-group">
+                <label for="lessonPlan">Lesson Plan</label>
+                <textarea id="lessonPlan" name="lessonPlan" placeholder="Enter lesson plan details" required></textarea>
+            </div>
+
+            <button type="submit" class="submit-btn">Save Lesson</button>
+        </form>
+    </div>
+</div>
+
+<script>
+    function toggleModal() {
+        const modal = document.getElementById('lessonModal');
+        const isOpen = modal.style.display === 'flex';
+
+        modal.style.display = isOpen ? 'none' : 'flex';
+        document.body.style.overflow = isOpen ? 'auto' : 'hidden';
+    }
+
+    function toggleLocationField() {
+        const mode = document.getElementById('mode').value;
+        const locationGroup = document.getElementById('locationGroup');
+        const locationInput = document.getElementById('location');
+
+        if (mode === 'FACE_TO_FACE') {
+            locationGroup.style.display = 'block';
+            locationInput.setAttribute('required', 'required');
+        } else {
+            locationGroup.style.display = 'none';
+            locationInput.removeAttribute('required');
+            locationInput.value = '';
+        }
+    }
+
+    window.onclick = function(event) {
+        const modal = document.getElementById('lessonModal');
+        if (event.target === modal) {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+    };
+
+    document.getElementById('lessonForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const formData = {
+            title: document.getElementById('title').value,
+            description: document.getElementById('description').value,
+            subject: document.getElementById('subject').value,
+            price: document.getElementById('price').value,
+            sessionDate: document.getElementById('sessionDate').value,
+            sessionTime: document.getElementById('sessionTime').value,
+            mode: document.getElementById('mode').value,
+            location: document.getElementById('location').value,
+            lessonPlan: document.getElementById('lessonPlan').value
+        };
+
+        console.log(formData);
+
+        document.getElementById('lessonForm').reset();
+        document.getElementById('locationGroup').style.display = 'none';
+        toggleModal();
+    });
+</script>
+
+</body>
+</html>

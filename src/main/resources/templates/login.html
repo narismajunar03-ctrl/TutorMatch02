@@ -1,0 +1,43 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Login</title>
+    <link rel="stylesheet" th:href="@{fdgdgfd/css/login.css}">
+
+</head>
+
+<body>
+
+<div class="login-wrapper">
+
+    <form class="login-card" th:action="@{/user/login}" method="post">
+
+        <h1>Welcome Back</h1>
+        <p class="subtitle">Sign in to continue</p>
+		<p th:if="${param.error}" style="color:red;">Invalid Username or Password</p>
+        <div class="input-group">
+            <input type="text" name="username" required>
+            <label>Username</label>
+        </div>
+
+        <div class="input-group">
+            <input type="password" name="password" required>
+            <label>Password</label>
+        </div>
+
+        <button type="submit">Sign In</button>
+
+    </form>
+
+</div>
+
+<script>
+    const params = new URLSearchParams(window.location.search);
+
+    if (params.get("error") === "true") {
+        document.getElementById("errorMsg").style.display = "block";
+    }
+</script>
+
+</body>
+</html>

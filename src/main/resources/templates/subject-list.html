@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TutorMatch - Subjects</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+
+body {
+  background: #f8fafc;
+  color: #0f172a;
+}
+
+/* NAV */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 64px;
+  background: white;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: 800;
+  color: #4f46e5;
+  text-decoration: none;
+}
+
+.nav-links {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #475569;
+  font-size: 14px;
+}
+
+/* HEADER */
+.header {
+  padding: 28px 64px;
+  background: white;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.header h1 {
+  font-size: 28px;
+  font-weight: 800;
+  color: #4f46e5;
+}
+
+.header p {
+  font-size: 14px;
+  color: #64748b;
+  margin-top: 6px;
+}
+
+/* FILTER BOX */
+.filter-box {
+  margin: 20px 64px;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* SEARCH */
+.search-input {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  font-size: 15px;
+  outline: none;
+}
+
+.search-input:focus {
+  border-color: #4f46e5;
+}
+
+/* FILTER ROW */
+.filter-row {
+  display: flex;
+  align-items: center;
+  gap: 20px; /* controls spacing */
+  flex-wrap: wrap;
+}
+
+/* MODE */
+.checkbox-group {
+  display: flex;
+  gap: 12px;
+  font-size: 14px;
+}
+
+/* PRICE */
+.price-range {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.price-range input {
+  width: 110px;
+  padding: 8px;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  font-size: 13px;
+}
+
+/* CLEAR BUTTON */
+.clear-btn {
+  font-size: 13px;
+  color: #ef4444;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+/* GRID */
+.container {
+  padding: 20px 64px 60px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  gap: 22px;
+}
+
+/* CARD */
+.card {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 20px;
+  transition: 0.25s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+}
+
+/* BADGES */
+.badge {
+  font-size: 12px;
+  padding: 5px 10px;
+  border-radius: 999px;
+  display: inline-block;
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+.online { background:#dbeafe; color:#1d4ed8; }
+.f2f { background:#dcfce7; color:#15803d; }
+.both { background:#fef3c7; color:#b45309; }
+
+/* TEXT */
+.subject {
+  font-size: 20px;
+  font-weight: 800;
+}
+
+.price {
+  color: #4f46e5;
+  font-weight: 700;
+  margin: 8px 0;
+  font-size: 16px;
+}
+
+.sessions {
+  font-size: 13px;
+  color: #475569;
+}
+
+.desc {
+  font-size: 13px;
+  color: #64748b;
+  margin: 12px 0;
+  line-height: 1.4;
+}
+
+/* BUTTON */
+.btn {
+  display: block;
+  text-align: center;
+  padding: 10px;
+  background: #4f46e5;
+  color: white;
+  border-radius: 10px;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.btn:hover {
+  background: #4338ca;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .navbar, .header, .filter-box, .container {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="navbar">
+  <a class="logo" href="#">TutorMatch</a>
+  <div class="nav-links">
+    <a href="#">Subjects</a>
+    <a href="#">Tutors</a>
+    <a href="#">About</a>
+  </div>
+</div>
+
+<div class="header">
+  <h1>List of Subjects</h1>
+  <p>Find tutors by subject, learning mode, and price range</p>
+</div>
+
+<div class="filter-box">
+
+  <input type="text" id="search" class="search-input" placeholder="Search subjects (e.g. Math, Python)">
+
+  <div class="filter-row">
+
+    <div class="checkbox-group">
+      <label><input type="checkbox" value="online" class="mode"> Online</label>
+      <label><input type="checkbox" value="f2f" class="mode"> Face-to-Face</label>
+    </div>
+
+    <div style="display:flex; align-items:center;">
+      <div class="price-range">
+        <input type="number" id="minPrice" placeholder="Min ₱">
+        <span>-</span>
+        <input type="number" id="maxPrice" placeholder="Max ₱">
+      </div>
+      <span class="clear-btn" onclick="clearFilters()">Clear</span>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="container">
+  <div class="grid" id="grid"></div>
+</div>
+
+<script>
+const data = [
+  { name:"Mathematics", mode:"online", price:200, sessions:10, desc:"Algebra, geometry, and problem solving step-by-step." },
+  { name:"English", mode:"f2f", price:180, sessions:8, desc:"Grammar, writing, and speaking improvement." },
+  { name:"Programming", mode:"both", price:300, sessions:15, desc:"HTML, CSS, JavaScript, Python fundamentals." }
+];
+
+const grid = document.getElementById("grid");
+
+function getModeLabel(mode){
+  if(mode === "online") return "Online";
+  if(mode === "f2f") return "Face-to-Face";
+  return "Online & Face-to-Face";
+}
+
+function render(list){
+  grid.innerHTML = list.map(item => `
+    <div class="card">
+      <div class="badge ${item.mode}">${getModeLabel(item.mode)}</div>
+      <div class="subject">${item.name}</div>
+      <div class="price">₱${item.price}/session</div>
+      <div class="sessions">${item.sessions} sessions available</div>
+      <div class="desc">${item.desc}</div>
+      <a href="#" class="btn">View ${item.name} Tutors</a>
+    </div>
+  `).join("");
+}
+
+function filter(){
+  const search = document.getElementById("search").value.toLowerCase();
+  const min = parseInt(document.getElementById("minPrice").value) || 0;
+  const max = parseInt(document.getElementById("maxPrice").value) || 999999;
+
+  const modes = [...document.querySelectorAll(".mode:checked")].map(m => m.value);
+
+  const result = data.filter(item => {
+    const matchSearch = item.name.toLowerCase().includes(search);
+    const matchPrice = item.price >= min && item.price <= max;
+    const matchMode = modes.length ? (modes.includes(item.mode) || item.mode === "both") : true;
+
+    return matchSearch && matchPrice && matchMode;
+  });
+
+  render(result);
+}
+
+function clearFilters(){
+  document.getElementById("search").value = "";
+  document.getElementById("minPrice").value = "";
+  document.getElementById("maxPrice").value = "";
+  document.querySelectorAll(".mode").forEach(cb => cb.checked = false);
+  render(data);
+}
+
+document.querySelectorAll("input").forEach(el => {
+  el.addEventListener("input", filter);
+  el.addEventListener("change", filter);
+});
+
+render(data);
+</script>
+
+</body>
+</html>

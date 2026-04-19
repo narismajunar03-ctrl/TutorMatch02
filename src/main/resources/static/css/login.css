@@ -1,0 +1,146 @@
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Inter", sans-serif;
+}
+
+/* BACKGROUND (same vibe as homepage) */
+body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(circle at top, #eef2ff, #f8fafc 60%);
+    color: #0f172a;
+}
+
+/* LOGIN WRAPPER */
+.login-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+/* LOGIN CARD */
+.login-card {
+    width: 380px;
+    padding: 36px;
+
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 18px;
+
+    box-shadow: 0 20px 50px rgba(0,0,0,0.08);
+    text-align: center;
+}
+
+/* BADGE (same style as hero badge mo) */
+.badge {
+    display: inline-block;
+    background: #e0e7ff;
+    color: #4f46e5;
+    padding: 6px 12px;
+    font-size: 12px;
+    border-radius: 999px;
+    font-weight: 600;
+    margin-bottom: 14px;
+}
+
+/* TITLE */
+.login-card h1 {
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -1px;
+    margin-bottom: 6px;
+}
+
+.subtitle {
+    font-size: 14px;
+    color: #64748b;
+    margin-bottom: 20px;
+}
+
+/* ERROR */
+.error {
+    color: #ef4444;
+    font-size: 13px;
+    margin-bottom: 14px;
+}
+
+/* INPUT GROUP */
+.input-group {
+    position: relative;
+    margin-bottom: 18px;
+}
+
+/* INPUT */
+.input-group input {
+    width: 100%;
+    padding: 14px 12px;
+
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+
+    outline: none;
+    font-size: 14px;
+
+    transition: 0.2s;
+}
+
+/* INPUT FOCUS */
+.input-group input:focus {
+    border-color: #4f46e5;
+    box-shadow: 0 0 0 3px rgba(79,70,229,0.15);
+}
+
+/* FLOAT LABEL */
+.input-group label {
+    position: absolute;
+    left: 12px;
+    top: 14px;
+
+    font-size: 14px;
+    color: #94a3b8;
+
+    pointer-events: none;
+    transition: 0.2s;
+    background: white;
+    padding: 0 4px;
+}
+
+/* FLOAT EFFECT */
+.input-group input:focus + label,
+.input-group input:valid + label {
+    top: -8px;
+    font-size: 12px;
+    color: #4f46e5;
+}
+
+/* BUTTON (same gradient style mo) */
+button {
+    width: 100%;
+    padding: 14px;
+
+    border: none;
+    border-radius: 12px;
+
+    background: linear-gradient(135deg, #4f46e5, #6366f1);
+    color: white;
+
+    font-weight: 600;
+    font-size: 14px;
+
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+button:hover {
+    opacity: 0.95;
+    transform: translateY(-1px);
+}
+
+button:active {
+    transform: scale(0.98);
+}

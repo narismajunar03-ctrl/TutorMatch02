@@ -1,0 +1,57 @@
+<html mlns:th="http://www.thymeleaf.org">
+<head>
+
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>TutorMatch</title>
+	<link
+	href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+	rel="stylesheet">
+	<link rel="stylesheet" th:href="@{/css/main.css}">
+	<link rel="stylesheet" th:href="@{/css/navbar.css}">
+
+</head>
+
+<body>
+
+	<!-- NAVBAR -->
+	<div class="navbar">
+		<a href="/" class="logo">TutorMatch</a>
+
+		<div class="nav-links">
+			<a href="/subject-list">List of Subjects</a> <a href="#">Tutors</a> <a href="#">About</a>
+			<a class="login" href="/login">Login</a>
+		</div>
+	</div>
+
+	<!-- HERO -->
+	<div class="hero">
+
+		<div class="badge">🎓 Learn smarter, not harder</div>
+
+		<h1>Connect with Expert Tutors Anytime</h1>
+
+		<p>Find verified tutors, book sessions instantly, and learn at
+			your own pace with personalized guidance made for you.</p>
+
+		<div class="search-wrapper">
+			<input type="text"
+				placeholder="Search subject (Math, English, Science, Programming...)">
+			<button>Search</button>
+		</div>
+
+		<div class="subjects">
+			<div class="pill">Mathematics</div>
+			<div class="pill">English</div>
+			<div class="pill">Science</div>
+			<div class="pill">Programming</div>
+			<div class="pill">Physics</div>
+			<div class="pill">Accounting</div>
+		</div>
+
+		<div class="note">Trusted by students and tutors nationwide</div>
+
+	</div>
+
+</body>
+</html>
