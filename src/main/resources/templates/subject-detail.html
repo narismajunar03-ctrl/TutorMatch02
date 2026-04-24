@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TutorMatch - Subject Detail</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+
+body {
+  background: #f8fafc;
+  color: #0f172a;
+}
+
+/* NAV */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px 64px;
+  background: white;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: 800;
+  color: #4f46e5;
+  text-decoration: none;
+}
+
+.nav-links {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #475569;
+  font-size: 14px;
+}
+
+/* BREADCRUMB */
+.breadcrumb {
+  padding: 16px 64px;
+  background: white;
+  border-bottom: 1px solid #e2e8f0;
+  font-size: 14px;
+}
+
+.breadcrumb a {
+  color: #4f46e5;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+.breadcrumb span {
+  color: #64748b;
+  margin: 0 8px;
+}
+
+/* HEADER */
+.header {
+  padding: 32px 64px;
+  background: white;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+}
+
+.header-content h1 {
+  font-size: 32px;
+  font-weight: 800;
+  color: #4f46e5;
+  margin-bottom: 8px;
+}
+
+.header-content p {
+  font-size: 15px;
+  color: #64748b;
+  margin-bottom: 16px;
+}
+
+.header-badge {
+  font-size: 13px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  display: inline-block;
+  font-weight: 600;
+  margin-right: 8px;
+}
+
+.badge-online { background: #dbeafe; color: #1d4ed8; }
+.badge-f2f { background: #dcfce7; color: #15803d; }
+.badge-both { background: #fef3c7; color: #b45309; }
+
+.header-stats {
+  display: flex;
+  gap: 20px;
+}
+
+.stat {
+  text-align: right;
+}
+
+.stat-value {
+  font-size: 24px;
+  font-weight: 800;
+  color: #4f46e5;
+}
+
+.stat-label {
+  font-size: 13px;
+  color: #64748b;
+}
+
+/* MAIN CONTENT */
+.container {
+  padding: 32px 64px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 28px;
+}
+
+/* SECTION */
+.section {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.section h2 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 16px;
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 12px;
+}
+
+.description-text {
+  font-size: 15px;
+  color: #475569;
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+.topic-list {
+  list-style: none;
+  margin-top: 12px;
+}
+
+.topic-list li {
+  font-size: 14px;
+  color: #475569;
+  padding: 8px 0;
+  border-bottom: 1px solid #f1f5f9;
+  display: flex;
+  align-items: center;
+}
+
+.topic-list li:before {
+  content: "✓";
+  color: #4f46e5;
+  font-weight: bold;
+  margin-right: 10px;
+  font-size: 16px;
+}
+
+/* TUTORS */
+.tutor-grid {
+  display: grid;
+  gap: 16px;
+}
+
+.tutor-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 16px;
+  transition: 0.25s;
+}
+
+.tutor-card:hover {
+  border-color: #4f46e5;
+  background: #f0f4ff;
+}
+
+.tutor-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 4px;
+}
+
+.tutor-rating {
+  font-size: 13px;
+  color: #f59e0b;
+  margin-bottom: 8px;
+}
+
+.tutor-price {
+  font-size: 14px;
+  font-weight: 600;
+  color: #4f46e5;
+}
+
+.tutor-mode {
+  font-size: 12px;
+  color: #64748b;
+  margin-top: 8px;
+}
+
+/* SIDEBAR */
+.sidebar {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  padding: 24px;
+  height: fit-content;
+  position: sticky;
+  top: 20px;
+}
+
+.price-box {
+  background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
+  color: white;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.price-label {
+  font-size: 13px;
+  color: rgba(255,255,255,0.8);
+  margin-bottom: 6px;
+}
+
+.price-value {
+  font-size: 28px;
+  font-weight: 800;
+}
+
+.price-per {
+  font-size: 12px;
+  color: rgba(255,255,255,0.8);
+  margin-top: 4px;
+}
+
+.btn {
+  display: block;
+  text-align: center;
+  padding: 12px;
+  background: #4f46e5;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 10px;
+  transition: 0.25s;
+  text-decoration: none;
+  width: 100%;
+}
+
+.btn:hover {
+  background: #4338ca;
+}
+
+.btn-secondary {
+  background: white;
+  color: #4f46e5;
+  border: 2px solid #4f46e5;
+}
+
+.btn-secondary:hover {
+  background: #f0f4ff;
+}
+
+.info-box {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 12px;
+}
+
+.info-label {
+  font-size: 12px;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.info-value {
+  font-size: 16px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+/* MODAL */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+  background-color: white;
+  margin: 5% auto;
+  padding: 30px;
+  border-radius: 16px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.close {
+  color: #64748b;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close:hover {
+  color: #0f172a;
+}
+
+.modal h2 {
+  font-size: 24px;
+  font-weight: 800;
+  color: #4f46e5;
+  margin-bottom: 16px;
+}
+
+.modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.modal-form input,
+.modal-form textarea,
+.modal-form select {
+  padding: 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 14px;
+  font-family: "Inter", sans-serif;
+}
+
+.modal-form textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* MOBILE */
+@media (max-width: 768px) {
+  .navbar, .breadcrumb, .header, .container {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .header {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .content-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    position: static;
+  }
+
+  .header-stats {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .stat {
+    text-align: left;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="navbar">
+  <a class="logo" href="/">TutorMatch</a>
+  <div class="nav-links">
+    <a href="/subjects">Subjects</a>
+    <a href="#">Tutors</a>
+    <a href="#">About</a>
+  </div>
+</div>
+
+<div class="breadcrumb">
+  <a onclick="goBack()">← Back to Subjects</a>
+  <span>/</span>
+  <span id="breadcrumbName">Subject Name</span>
+</div>
+
+<div class="header">
+  <div class="header-content">
+    <h1 id="subjectName">Subject Name</h1>
+    <p id="subjectDesc">Subject description goes here</p>
+    <div>
+      <span class="header-badge" id="modeBadge">Online</span>
+    </div>
+  </div>
+  <div class="header-stats">
+    <div class="stat">
+      <div class="stat-value" id="sessionCount">15</div>
+      <div class="stat-label">Sessions Available</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value" id="tutorCount">5</div>
+      <div class="stat-label">Available Tutors</div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="content-grid">
+
+    <!-- MAIN CONTENT -->
+    <div>
+
+      <!-- OVERVIEW SECTION -->
+      <div class="section">
+        <h2>Overview</h2>
+        <p class="description-text" id="fullDescription">
+          This is a comprehensive overview of the subject, including key topics, learning objectives, and what students can expect from tutoring in this subject.
+        </p>
+      </div>
+
+      <!-- TOPICS SECTION -->
+      <div class="section">
+        <h2>Topics Covered</h2>
+        <ul class="topic-list" id="topicsList">
+          <li>Fundamentals and Basics</li>
+          <li>Intermediate Concepts</li>
+          <li>Advanced Techniques</li>
+          <li>Practical Applications</li>
+          <li>Problem Solving</li>
+        </ul>
+      </div>
+
+      <!-- TUTORS SECTION -->
+      <div class="section">
+        <h2>Available Tutors</h2>
+        <div class="tutor-grid" id="tutorsList">
+          <div class="tutor-card">
+            <div class="tutor-name">Maria Santos</div>
+            <div class="tutor-rating">★★★★★ (24 reviews)</div>
+            <div class="tutor-price">₱200/session</div>
+            <div class="tutor-mode">Online & Face-to-Face</div>
+          </div>
+          <div class="tutor-card">
+            <div class="tutor-name">Juan Dela Cruz</div>
+            <div class="tutor-rating">★★★★★ (18 reviews)</div>
+            <div class="tutor-price">₱250/session</div>
+            <div class="tutor-mode">Online</div>
+          </div>
+          <div class="tutor-card">
+            <div class="tutor-name">Ana Rodriguez</div>
+            <div class="tutor-rating">★★★★☆ (12 reviews)</div>
+            <div class="tutor-price">₱180/session</div>
+            <div class="tutor-mode">Face-to-Face</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <div class="price-box">
+        <div class="price-label">Price Range</div>
+        <div class="price-value" id="priceRange">₱180-250</div>
+        <div class="price-per">per session</div>
+      </div>
+
+      <button class="btn" onclick="openBookingModal()">Book a Session</button>
+      <button class="btn btn-secondary" onclick="contactTutor()">Contact Tutors</button>
+
+      <div class="info-box">
+        <div class="info-label">Learning Mode</div>
+        <div class="info-value" id="modeInfo">Online & Face-to-Face</div>
+      </div>
+
+      <div class="info-box">
+        <div class="info-label">Difficulty Level</div>
+        <div class="info-value" id="difficultyInfo">Beginner - Advanced</div>
+      </div>
+
+      <div class="info-box">
+        <div class="info-label">Total Sessions Booked</div>
+        <div class="info-value" id="sessionBooked">45</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- BOOKING MODAL -->
+<div id="bookingModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeBookingModal()">&times;</span>
+    <h2>Book a Session</h2>
+    <form class="modal-form" onsubmit="handleBooking(event)">
+      <label for="tutorSelect" style="font-weight: 600; color: #0f172a;">Select Tutor</label>
+      <select id="tutorSelect" required>
+        <option value="">-- Choose a tutor --</option>
+        <option value="maria">Maria Santos - ₱200/session</option>
+        <option value="juan">Juan Dela Cruz - ₱250/session</option>
+        <option value="ana">Ana Rodriguez - ₱180/session</option>
+      </select>
+
+      <label for="sessionDate" style="font-weight: 600; color: #0f172a;">Preferred Date</label>
+      <input type="date" id="sessionDate" required>
+
+      <label for="sessionTime" style="font-weight: 600; color: #0f172a;">Preferred Time</label>
+      <input type="time" id="sessionTime" required>
+
+      <label for="sessionNotes" style="font-weight: 600; color: #0f172a;">Additional Notes</label>
+      <textarea id="sessionNotes" placeholder="Tell us about your learning goals or specific topics you'd like to focus on..."></textarea>
+
+      <button type="submit" class="btn">Confirm Booking</button>
+    </form>
+  </div>
+</div>
+
+<script>
+// Subject data
+const subjectData = {
+  Mathematics: {
+    desc: "Comprehensive math tutoring covering algebra, geometry, calculus, and problem-solving.",
+    fullDesc: "Mathematics is the foundation of analytical thinking. Our expert tutors provide comprehensive tutoring in all major mathematical disciplines. Whether you're struggling with fundamentals or preparing for advanced exams, we have the right tutor for you. Students can expect personalized learning plans, step-by-step problem solving, and practical applications of mathematical concepts.",
+    topics: ["Algebra Fundamentals", "Geometry & Proofs", "Calculus & Limits", "Statistics", "Problem Solving", "Test Preparation"],
+    mode: "both",
+    price: 200,
+    sessions: 10,
+    tutors: [
+      { name: "Maria Santos", rating: 4.9, reviews: 24, price: 200, mode: "both" },
+      { name: "Juan Dela Cruz", rating: 4.8, reviews: 18, price: 250, mode: "online" },
+      { name: "Ana Rodriguez", rating: 4.7, reviews: 12, price: 180, mode: "f2f" }
+    ]
+  },
+  English: {
+    desc: "Grammar, writing, speaking, and literature coaching for all proficiency levels.",
+    fullDesc: "Master the English language with our experienced tutors. We offer comprehensive English tutoring that covers grammar, writing skills, speaking practice, and literary analysis. Whether you need help with academic writing, test preparation, or conversational English, our tutors tailor lessons to your needs and goals.",
+    topics: ["Grammar & Syntax", "Writing Skills", "Speaking & Pronunciation", "Literature Analysis", "Vocabulary Building", "Academic Writing"],
+    mode: "f2f",
+    price: 180,
+    sessions: 8,
+    tutors: [
+      { name: "Maria Santos", rating: 5.0, reviews: 24, price: 180, mode: "f2f" },
+      { name: "Juan Dela Cruz", rating: 4.9, reviews: 18, price: 200, mode: "online" },
+      { name: "Ana Rodriguez", rating: 4.8, reviews: 12, price: 170, mode: "f2f" }
+    ]
+  },
+  Programming: {
+    desc: "Learn HTML, CSS, JavaScript, Python, and more with hands-on coding sessions.",
+    fullDesc: "Start your coding journey with our experienced programmers. We provide comprehensive programming tutoring covering web development, Python fundamentals, data structures, algorithms, and best practices. Our lessons are project-based and practical, ensuring you not only understand concepts but can apply them in real-world scenarios.",
+    topics: ["HTML & CSS Basics", "JavaScript Fundamentals", "Python Programming", "Data Structures", "Algorithms", "Web Development Projects"],
+    mode: "online",
+    price: 300,
+    sessions: 15,
+    tutors: [
+      { name: "Maria Santos", rating: 4.9, reviews: 24, price: 300, mode: "online" },
+      { name: "Juan Dela Cruz", rating: 5.0, reviews: 18, price: 320, mode: "online" },
+      { name: "Ana Rodriguez", rating: 4.8, reviews: 12, price: 280, mode: "online" }
+    ]
+  }
+};
+
+// Get subject from URL parameter or use default
+function getSubjectFromUrl() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get('subject') || 'Mathematics';
+}
+
+function getModeLabel(mode) {
+  if (mode === "online") return "Online";
+  if (mode === "f2f") return "Face-to-Face";
+  return "Online & Face-to-Face";
+}
+
+function getModeClass(mode) {
+  if (mode === "online") return "badge-online";
+  if (mode === "f2f") return "badge-f2f";
+  return "badge-both";
+}
+
+function loadSubjectDetail() {
+  const subjectName = getSubjectFromUrl();
+  const subject = subjectData[subjectName];
+
+  if (!subject) {
+    document.body.innerHTML = "<h1>Subject not found</h1>";
+    return;
+  }
+
+  // Header info
+  document.getElementById("subjectName").textContent = subjectName;
+  document.getElementById("breadcrumbName").textContent = subjectName;
+  document.getElementById("subjectDesc").textContent = subject.desc;
+  document.getElementById("sessionCount").textContent = subject.sessions;
+  document.getElementById("tutorCount").textContent = subject.tutors.length;
+
+  // Badge
+  const badge = document.getElementById("modeBadge");
+  badge.textContent = getModeLabel(subject.mode);
+  badge.className = "header-badge " + getModeClass(subject.mode);
+
+  // Full description
+  document.getElementById("fullDescription").textContent = subject.fullDesc;
+
+  // Topics
+  const topicsList = document.getElementById("topicsList");
+  topicsList.innerHTML = subject.topics.map(topic => `<li>${topic}</li>`).join("");
+
+  // Tutors
+  const tutorsList = document.getElementById("tutorsList");
+  tutorsList.innerHTML = subject.tutors.map(tutor => `
+    <div class="tutor-card">
+      <div class="tutor-name">${tutor.name}</div>
+      <div class="tutor-rating">★★★★★ (${tutor.reviews} reviews)</div>
+      <div class="tutor-price">₱${tutor.price}/session</div>
+      <div class="tutor-mode">${getModeLabel(tutor.mode)}</div>
+    </div>
+  `).join("");
+
+  // Sidebar info
+  const prices = subject.tutors.map(t => t.price).sort((a, b) => a - b);
+  document.getElementById("priceRange").textContent = `₱${prices[0]}-${prices[prices.length - 1]}`;
+  document.getElementById("modeInfo").textContent = getModeLabel(subject.mode);
+
+  // Update title
+  document.title = `TutorMatch - ${subjectName}`;
+}
+
+function goBack() {
+  window.location.href = "/subjects";
+}
+
+function openBookingModal() {
+  document.getElementById("bookingModal").style.display = "block";
+}
+
+function closeBookingModal() {
+  document.getElementById("bookingModal").style.display = "none";
+}
+
+function handleBooking(event) {
+  event.preventDefault();
+  const tutor = document.getElementById("tutorSelect").value;
+  const date = document.getElementById("sessionDate").value;
+  const time = document.getElementById("sessionTime").value;
+  const notes = document.getElementById("sessionNotes").value;
+
+  alert(`Booking confirmed!\nTutor: ${tutor}\nDate: ${date}\nTime: ${time}\n\nWe'll send you a confirmation email shortly.`);
+  closeBookingModal();
+}
+
+function contactTutor() {
+  alert("Contact form opened. Tutors will respond within 24 hours.");
+}
+
+// Close modal when clicking outside
+window.onclick = function(event) {
+  const modal = document.getElementById("bookingModal");
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+
+// Load on page load
+loadSubjectDetail();
+</script>
+
+</body>
+</html>
+

@@ -1,57 +1,305 @@
-<html mlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>TutorMatch</title>
-	<link
-	href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-	rel="stylesheet">
-	<link rel="stylesheet" th:href="@{/css/main.css}">
-	<link rel="stylesheet" th:href="@{/css/navbar.css}">
+	<title>TutorMatch - Home</title>
 
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+			font-family: "Inter", sans-serif;
+		}
+
+		body {
+			background: #f8fafc;
+			color: #0f172a;
+		}
+
+		/* CONTAINER SYSTEM */
+		.container {
+			max-width: 1200px;
+			margin: auto;
+			padding: 0 20px;
+		}
+
+		/* NAVBAR */
+		.navbar {
+			position: sticky;
+			top: 0;
+			z-index: 1000;
+			background: white;
+			border-bottom: 1px solid #e2e8f0;
+		}
+
+		.navbar-inner {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			height: 70px;
+		}
+
+		.logo {
+			font-weight: 800;
+			font-size: 20px;
+			color: #4f46e5;
+			text-decoration: none;
+		}
+
+		.nav-links {
+			display: flex;
+			gap: 20px;
+		}
+
+		.nav-links a {
+			text-decoration: none;
+			color: #64748b;
+			font-size: 14px;
+		}
+
+		.login {
+			padding: 8px 14px;
+			border: 1px solid #e2e8f0;
+			border-radius: 10px;
+		}
+
+		/* HERO */
+		.hero {
+			text-align: center;
+			padding: 90px 0 70px;
+			background: linear-gradient(135deg,#eef2ff,#f8fafc);
+		}
+
+		.hero h1 {
+			font-size: 42px;
+			font-weight: 800;
+			margin-bottom: 12px;
+		}
+
+		.hero p {
+			color: #64748b;
+			max-width: 500px;
+			margin: auto;
+			margin-bottom: 24px;
+		}
+
+		.search-box {
+			display: flex;
+			justify-content: center;
+			gap: 10px;
+		}
+
+		.search-box input {
+			width: 320px;
+			padding: 12px;
+			border-radius: 10px;
+			border: 1px solid #e2e8f0;
+		}
+
+		.btn {
+			padding: 12px 18px;
+			background: #4f46e5;
+			color: white;
+			border-radius: 10px;
+			border: none;
+			cursor: pointer;
+		}
+
+		.btn:hover {
+			background: #4338ca;
+		}
+
+		/* SECTION */
+		.section {
+			padding: 70px 0;
+		}
+
+		.section h2 {
+			text-align: center;
+			font-size: 24px;
+			margin-bottom: 30px;
+		}
+
+		/* SUBJECTS */
+		.grid {
+			display: grid;
+			grid-template-columns: repeat(auto-fill,minmax(200px,1fr));
+			gap: 16px;
+		}
+
+		.card {
+			background: white;
+			padding: 18px;
+			border-radius: 14px;
+			border: 1px solid #e2e8f0;
+			text-align: center;
+			transition: 0.2s;
+			cursor: pointer;
+		}
+
+		.card:hover {
+			border-color: #4f46e5;
+			transform: translateY(-2px);
+		}
+
+		/* STEPS */
+		.steps {
+			display: flex;
+			justify-content: space-between;
+			gap: 20px;
+			text-align: center;
+		}
+
+		.step {
+			flex: 1;
+		}
+
+		.step h3 {
+			margin-bottom: 8px;
+		}
+
+		/* TUTORS */
+		.tutor-card {
+			text-align: left;
+		}
+
+		.tutor-name {
+			font-weight: 700;
+		}
+
+		.tutor-price {
+			color: #4f46e5;
+			margin-top: 6px;
+		}
+
+		/* CTA */
+		.cta {
+			text-align: center;
+			padding: 80px 20px;
+			background: #4f46e5;
+			color: white;
+		}
+
+		.cta h2 {
+			margin-bottom: 16px;
+		}
+
+		/* FOOTER */
+		.footer {
+			text-align: center;
+			padding: 20px;
+			font-size: 13px;
+			color: #64748b;
+		}
+
+		/* MOBILE */
+		@media(max-width:768px){
+			.steps {
+				flex-direction: column;
+			}
+
+			.hero h1 {
+				font-size: 30px;
+			}
+		}
+	</style>
 </head>
 
 <body>
 
-	<!-- NAVBAR -->
-	<div class="navbar">
+<!-- NAVBAR -->
+<div class="navbar">
+	<div class="container navbar-inner">
 		<a href="/" class="logo">TutorMatch</a>
-
 		<div class="nav-links">
-			<a href="/subject-list">List of Subjects</a> <a href="#">Tutors</a> <a href="#">About</a>
+			<a href="/subject-list">Subjects</a>
+			<a href="#">Tutors</a>
+			<a href="#">About</a>
 			<a class="login" href="/login">Login</a>
 		</div>
 	</div>
+</div>
 
-	<!-- HERO -->
-	<div class="hero">
+<!-- HERO -->
+<div class="hero">
+	<div class="container">
+		<h1>Find the Right Tutor for You</h1>
+		<p>Book sessions, learn faster, and achieve your goals with expert guidance.</p>
 
-		<div class="badge">🎓 Learn smarter, not harder</div>
-
-		<h1>Connect with Expert Tutors Anytime</h1>
-
-		<p>Find verified tutors, book sessions instantly, and learn at
-			your own pace with personalized guidance made for you.</p>
-
-		<div class="search-wrapper">
-			<input type="text"
-				placeholder="Search subject (Math, English, Science, Programming...)">
-			<button>Search</button>
-		</div>
-
-		<div class="subjects">
-			<div class="pill">Mathematics</div>
-			<div class="pill">English</div>
-			<div class="pill">Science</div>
-			<div class="pill">Programming</div>
-			<div class="pill">Physics</div>
-			<div class="pill">Accounting</div>
-		</div>
-
-		<div class="note">Trusted by students and tutors nationwide</div>
-
+		<form class="search-box" action="/subject-list" method="get">
+			<input name="query" placeholder="Search subject..." required>
+			<button class="btn">Search</button>
+		</form>
 	</div>
+</div>
+
+<!-- SUBJECTS -->
+<div class="section">
+	<div class="container">
+		<h2>Popular Subjects</h2>
+
+		<div class="grid">
+			<a th:each="subject : ${subjects}"
+			   th:href="@{/subject-detail(subject=${subject.name})}"
+			   class="card"
+			   th:text="${subject.name}">
+				Math
+			</a>
+		</div>
+	</div>
+</div>
+
+<!-- HOW IT WORKS -->
+<div class="section">
+	<div class="container">
+		<h2>How It Works</h2>
+
+		<div class="steps">
+			<div class="step">
+				<h3>Search</h3>
+				<p>Find your subject</p>
+			</div>
+			<div class="step">
+				<h3>Book</h3>
+				<p>Choose a tutor</p>
+			</div>
+			<div class="step">
+				<h3>Learn</h3>
+				<p>Start your session</p>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- TUTORS -->
+<div class="section">
+	<div class="container">
+		<h2>Featured Tutors</h2>
+
+		<div class="grid">
+			<div class="card tutor-card" th:each="tutor : ${tutors}">
+				<div class="tutor-name" th:text="${tutor.name}"></div>
+				<div th:text="${tutor.subject}"></div>
+				<div class="tutor-price">₱<span th:text="${tutor.rate}"></span>/hr</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- CTA -->
+<div class="cta">
+	<h2>Start Learning Today</h2>
+	<a href="/login"><button class="btn">Get Started</button></a>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+	© 2026 TutorMatch
+</div>
 
 </body>
 </html>
