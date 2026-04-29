@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TutorMatch - Tutor Registration</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/tutor-registration.css">
+
+</head>
+
+<body>
+
+<div class="navbar">
+  <a class="logo" href="/">TutorMatch</a>
+  <div class="nav-links">
+    <a href="/subjects">Subjects</a>
+    <a href="#">Tutors</a>
+    <a href="#">About</a>
+  </div>
+</div>
+
+<div class="header">
+  <h1>Register as a Tutor</h1>
+  <p>Share your knowledge and help students achieve their learning goals</p>
+</div>
+
+<div class="container">
+  <div class="form-section">
+
+    <form id="tutorRegistrationForm" onsubmit="handleTutorRegistration(event)" enctype="multipart/form-data">
+
+      <!-- STEP INDICATOR -->
+      <div class="step-indicator">
+        <div class="step active" data-step="1">
+          <div class="step-number">1</div>
+          <div class="step-label">User Details</div>
+        </div>
+        <div class="step" data-step="2">
+          <div class="step-number">2</div>
+          <div class="step-label">Credentials</div>
+        </div>
+        <div class="step" data-step="3">
+          <div class="step-number">3</div>
+          <div class="step-label">Documents</div>
+        </div>
+      </div>
+
+      <!-- STEP 1: USER DETAILS -->
+      <div class="form-step active" data-step="1">
+        <h3 class="step-title">User Details</h3>
+
+        <!-- FIRST NAME & LAST NAME -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="firstName">First Name <span class="required">*</span></label>
+            <input type="text" id="firstName" name="fname" placeholder="Juan" required>
+            <div class="error-message" id="firstNameError">Please enter your first name</div>
+          </div>
+
+          <div class="form-group">
+            <label for="lastName">Last Name <span class="required">*</span></label>
+            <input type="text" id="lastName" name="lname" placeholder="Dela Cruz" required>
+            <div class="error-message" id="lastNameError">Please enter your last name</div>
+          </div>
+        </div>
+
+        <!-- EMAIL -->
+        <div class="form-group">
+          <label for="email">Email Address <span class="required">*</span></label>
+          <input type="email" id="email" name="email" placeholder="your.email@example.com" required>
+          <div class="error-message" id="emailError">Please enter a valid email address</div>
+        </div>
+
+        <!-- CONTACT NUMBER -->
+        <div class="form-group">
+          <label for="contactNumber">Contact Number <span class="required">*</span></label>
+          <input type="tel" id="contactNumber" name="contactNumber" placeholder="+63 9XX XXX XXXX" required>
+          <div class="error-message" id="contactError">Please enter a valid contact number</div>
+        </div>
+
+        <!-- ADDRESS - STREET & BARANGAY -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="street">Street Address <span class="required">*</span></label>
+            <input type="text" id="street" name="streetAddress" placeholder="House No., Street Name" required>
+            <div class="error-message" id="streetError">Please enter your street address</div>
+          </div>
+
+          <div class="form-group">
+            <label for="barangay">Barangay <span class="required">*</span></label>
+            <input type="text" id="barangay" name="barangay" placeholder="Barangay Name" required>
+            <div class="error-message" id="barangayError">Please enter your barangay</div>
+          </div>
+        </div>
+
+        <!-- ADDRESS - CITY, PROVINCE & ZIP CODE -->
+        <div class="form-row-three">
+          <div class="form-group">
+            <label for="city">City <span class="required">*</span></label>
+            <input type="text" id="city" name="city" placeholder="City Name" required>
+            <div class="error-message" id="cityError">Please enter your city</div>
+          </div>
+
+          <div class="form-group">
+            <label for="province">Province</label>
+            <input type="text" id="province" name="province" placeholder="Province Name (Optional)">
+          </div>
+
+          <div class="form-group">
+            <label for="zipCode">Zip Code <span class="required">*</span></label>
+            <input type="text" id="zipCode" name="zipCode" placeholder="XXXXX" required>
+            <div class="error-message" id="zipCodeError">Please enter a valid zip code</div>
+          </div>
+        </div>
+
+        <!-- STEP 1 NAVIGATION -->
+        <div class="step-navigation">
+          <button type="button" class="btn btn-next" onclick="nextStep(1)">Next</button>
+        </div>
+      </div>
+
+      <!-- STEP 2: CREDENTIALS -->
+      <div class="form-step" data-step="2">
+        <h3 class="step-title">Credentials</h3>
+
+        <!-- USERNAME -->
+        <div class="form-group">
+          <label for="username">Username <span class="required">*</span></label>
+          <input type="text" id="username" name="username" placeholder="Choose a unique username" required>
+          <div class="error-message" id="usernameError">Please enter a valid username (3-20 characters)</div>
+        </div>
+
+        <!-- PASSWORD -->
+        <div class="form-group">
+          <label for="password">Password <span class="required">*</span></label>
+          <input type="password" id="password" name="password" placeholder="Create a strong password" required oninput="checkPasswordStrength()">
+          <div class="password-strength">
+            <div class="password-strength-bar" id="strengthBar"></div>
+          </div>
+          <div class="password-strength-text" id="strengthText">Password strength: -</div>
+          <div class="error-message" id="passwordError">Password must be at least 8 characters</div>
+        </div>
+
+        <!-- CONFIRM PASSWORD -->
+        <div class="form-group">
+          <label for="confirmPassword">Re-verify Password <span class="required">*</span></label>
+          <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required>
+          <div class="error-message" id="confirmPasswordError">Passwords do not match</div>
+        </div>
+
+        <!-- SHOW PASSWORD CHECKBOX -->
+        <div class="checkbox-group">
+          <input type="checkbox" id="showPassword" onchange="togglePasswordVisibility()">
+          <label for="showPassword">Show Password</label>
+        </div>
+
+        <!-- STEP 2 NAVIGATION -->
+        <div class="step-navigation">
+          <button type="button" class="btn btn-back" onclick="prevStep(2)">Back</button>
+          <button type="button" class="btn btn-next" onclick="nextStep(2)">Next</button>
+        </div>
+      </div>
+
+      <!-- STEP 3: DOCUMENTS & PROFESSIONAL INFO -->
+      <div class="form-step" data-step="3">
+        <h3 class="step-title">Documents & Professional Information</h3>
+
+        <!-- PROFESSIONAL DESCRIPTION -->
+        <div class="form-group">
+          <label for="description">Professional Description <span class="required">*</span></label>
+          <textarea id="description" name="description" placeholder="Write a brief description about your expertise, teaching experience, and what subjects you specialize in..." required></textarea>
+          <div class="error-message" id="descriptionError">Please provide a professional description</div>
+        </div>
+
+        <!-- CERTIFICATE UPLOAD -->
+        <div class="file-upload-group">
+          <label for="certificate">Certificate <span class="required">*</span></label>
+          <input type="file" id="certificate" name="certificate" class="file-upload-input" accept=".pdf,.jpg,.jpeg,.png" required>
+          <div class="file-list" id="certificateList"></div>
+          <div class="error-message" id="certificateError">Please upload a valid certificate (PDF, JPG, PNG)</div>
+        </div>
+
+        <!-- LICENSE UPLOAD -->
+        <div class="file-upload-group">
+          <label for="license">License <span class="required">*</span></label>
+          <input type="file" id="license" name="license" class="file-upload-input" accept=".pdf,.jpg,.jpeg,.png" required>
+          <div class="file-list" id="licenseList"></div>
+          <div class="error-message" id="licenseError">Please upload a valid license (PDF, JPG, PNG)</div>
+        </div>
+
+        <!-- ADDITIONAL DOCUMENTS -->
+        <div class="file-upload-group">
+          <label for="additionalDocs">Valid ID(Government ID)</label>
+          <input type="file" id="additionalDocs" name="additionalDocs" class="file-upload-input" accept=".pdf,.jpg,.jpeg,.png" required>
+          <div class="file-list" id="additionalDocsList"></div>
+          <div class="error-message" id="additionalDocsError">Please upload a Government ID (PDF, JPG, PNG)</div>
+        </div>
+
+        <!-- STEP 3 NAVIGATION -->
+        <div class="step-navigation">
+          <button type="button" class="btn btn-back" onclick="prevStep(3)">Back</button>
+          <button type="submit" class="btn btn-submit">Register as Tutor</button>
+        </div>
+
+        <div class="login-link">
+          Already have an account? <a href="/login">Login here</a>
+        </div>
+      </div>
+
+    </form>
+
+  </div>
+</div>
+<script src="/js/tutor-registration.js" defer></script>
+
+</body>
+</html>
+

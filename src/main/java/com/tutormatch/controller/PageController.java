@@ -25,5 +25,15 @@ public class PageController {
 	public String showSubjectList() {
 		return "subject-list";
 	}
+	
+	@GetMapping("/student-registration")
+	public String showStudentRegistration() {
+		return "student-registration";
+	}
+	
+	@GetMapping("/tutor-registration")
+	public String showTutorRegistration() {
+		return "tutor-registration";
+	}
 
 }
