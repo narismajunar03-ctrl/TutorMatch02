@@ -21,9 +21,9 @@ public class PageController {
 		return "dashboard";
 	}
 
-	@GetMapping("/subject-list")
+	@GetMapping("/lesson-list")
 	public String showSubjectList() {
-		return "subject-list";
+		return "lesson-list";
 	}
 	
 	@GetMapping("/student-registration")
@@ -34,6 +34,11 @@ public class PageController {
 	@GetMapping("/tutor-registration")
 	public String showTutorRegistration() {
 		return "tutor-registration";
+	}
+	
+	@GetMapping("/lesson-registration")
+	public String showLessonRegistration() {
+		return "lesson-registration";
 	}
 
 }

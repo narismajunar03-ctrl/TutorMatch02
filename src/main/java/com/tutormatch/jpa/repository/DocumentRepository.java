@@ -1,4 +1,4 @@
-package com.tutormatch.repository;
+package com.tutormatch.jpa.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TutorMatch - Add Subject</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+
+body {
+  background: #f8fafc;
+  color: #0f172a;
+}
+
+.navbar {
+position: sticky;
+top: 0;
+  padding: 18px 64px;
+  background: white;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: 800;
+  color: #4f46e5;
+}
+
+.header {
+  padding: 30px 64px;
+  background: white;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.header h1 {
+  font-size: 28px;
+  color: #4f46e5;
+}
+
+.header p {
+  color: #64748b;
+}
+
+.container {
+  max-width: 650px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.form-card {
+  background: white;
+  padding: 30px;
+  border-radius: 16px;
+  border: 1px solid #e2e8f0;
+}
+
+.form-group {
+  margin-bottom: 18px;
+}
+
+label {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 12px;
+  margin-top: 6px;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  font-size: 14px;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 90px;
+}
+
+button {
+  width: 100%;
+  padding: 14px;
+  background: #4f46e5;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #4338ca;
+}
+
+.small-btn {
+  width: auto;
+  padding: 8px 12px;
+  font-size: 12px;
+  border-radius: 8px;
+}
+
+.remove-btn {
+  background: #ef4444;
+  color: white;
+}
+
+.add-btn {
+  margin-top: 10px;
+  background: #10b981;
+}
+
+.hidden {
+  display: none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="navbar">
+  <div class="logo">TutorMatch</div>
+</div>
+
+<div class="header">
+  <h1>Add Lesson</h1>
+  <p>Create your teaching offer</p>
+</div>
+
+<div class="container">
+  <div class="form-card">
+
+    <form id="subjectForm">
+
+      <div class="form-group">
+        <label>Lesson</label>
+        <input type="text" id="lesson" required>
+      </div>
+
+      <div class="form-group">
+        <label>Description</label>
+        <textarea id="description"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label>Session Type</label>
+        <select id="sessionType" required>
+          <option value="">Select Type</option>
+          <option value="group">Group</option>
+          <option value="one">One-on-One</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Rate (₱ per session)</label>
+        <input type="number" id="rate" required>
+      </div>
+
+      <div class="form-group">
+        <label>Hours per Lesson</label>
+        <input type="number" id="hours" required>
+      </div>
+
+      <!-- AVAILABILITY -->
+      <div class="form-group">
+        <label>Availability</label>
+
+        <div id="availabilityList">
+          <input type="datetime-local" class="availability-item" required>
+        </div>
+
+        <button type="button" class="small-btn add-btn" onclick="addDate()">
+          + Add Another Date
+        </button>
+      </div>
+
+      <div class="form-group">
+        <label>Mode</label>
+        <select id="mode" required>
+          <option value="">Select Mode</option>
+          <option value="online">Online</option>
+          <option value="face">Face-to-Face</option>
+        </select>
+      </div>
+
+      <div id="onlineField" class="form-group hidden">
+        <label>Meeting Link</label>
+        <input type="text" id="meetingLink">
+      </div>
+
+      <div id="locationField" class="form-group hidden">
+        <label>Location</label>
+        <input type="text" id="location">
+      </div>
+
+      <button type="submit">Save Subject</button>
+
+    </form>
+
+  </div>
+</div>
+
+<script>
+// ELEMENTS
+const mode = document.getElementById("mode");
+const sessionType = document.getElementById("sessionType");
+const onlineField = document.getElementById("onlineField");
+const locationField = document.getElementById("locationField");
+
+// UI LOGIC
+function updateUI() {
+  onlineField.classList.add("hidden");
+  locationField.classList.add("hidden");
+
+  if (sessionType.value === "group") {
+    mode.value = "online";
+    mode.disabled = true;
+    onlineField.classList.remove("hidden");
+
+  } else if (sessionType.value === "one") {
+    mode.disabled = false;
+
+    if (mode.value === "online") {
+      onlineField.classList.remove("hidden");
+    } else if (mode.value === "face") {
+      locationField.classList.remove("hidden");
+    }
+  }
+}
+
+mode.addEventListener("change", updateUI);
+sessionType.addEventListener("change", updateUI);
+
+// ADD DATE
+function addDate() {
+  const container = document.getElementById("availabilityList");
+
+  const wrapper = document.createElement("div");
+  wrapper.style.display = "flex";
+  wrapper.style.gap = "10px";
+  wrapper.style.marginTop = "10px";
+
+  const input = document.createElement("input");
+  input.type = "datetime-local";
+  input.classList.add("availability-item");
+  input.required = true;
+  input.style.flex = "1";
+
+  const removeBtn = document.createElement("button");
+  removeBtn.type = "button";
+  removeBtn.textContent = "Remove";
+  removeBtn.classList.add("small-btn", "remove-btn");
+
+  removeBtn.onclick = () => wrapper.remove();
+
+  wrapper.appendChild(input);
+  wrapper.appendChild(removeBtn);
+
+  container.appendChild(wrapper);
+}
+
+// SUBMIT
+document.getElementById("subjectForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const availabilityInputs = document.querySelectorAll(".availability-item");
+
+  const availability = Array.from(availabilityInputs).map(input => {
+    const [date, time] = input.value.split("T");
+    return { date, time };
+  });
+
+  const data = {
+    lesson: document.getElementById("lesson").value,
+    description: document.getElementById("description").value,
+    rate: Number(document.getElementById("rate").value),
+    hours: Number(document.getElementById("hours").value),
+    sessionType: sessionType.value,
+    availability: availability,
+    mode: mode.value,
+    meetingLink: document.getElementById("meetingLink").value,
+    location: document.getElementById("location").value,
+    tutorId: "661234abcd1234abcd5678"
+  };
+
+  try {
+    const res = await fetch("http://localhost:8080/tutor-match/lessons", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    });
+
+    const message = await res.text();
+    alert(message);
+
+    document.getElementById("subjectForm").reset();
+    document.getElementById("availabilityList").innerHTML =
+      '<input type="datetime-local" class="availability-item" required>';
+
+    onlineField.classList.add("hidden");
+    locationField.classList.add("hidden");
+    mode.disabled = false;
+
+  } catch (err) {
+    console.error(err);
+    alert("Server error");
+  }
+});
+</script>
+
+</body>
+</html>

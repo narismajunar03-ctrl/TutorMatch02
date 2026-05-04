@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutor Dashboard</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Inter", sans-serif;
+        }
+
+        body {
+            background: #f8fafc;
+            color: #0f172a;
+        }
+
+        /* NAVBAR */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 64px;
+            background: white;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 800;
+            color: #4f46e5;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .nav-links a:hover {
+            color: #4f46e5;
+        }
+
+        .login {
+            padding: 10px 14px;
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+        }
+
+        /* LAYOUT */
+        .dashboard-container {
+            display: grid;
+            grid-template-columns: 240px 1fr;
+            gap: 24px;
+            padding: 32px 64px;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 20px;
+            height: fit-content;
+            position: sticky;
+            top: 100px;
+        }
+
+        .sidebar h2 {
+            font-size: 18px;
+            margin-bottom: 16px;
+        }
+
+        .sidebar a {
+            display: block;
+            padding: 10px;
+            border-radius: 10px;
+            color: #475569;
+            text-decoration: none;
+        }
+
+        .sidebar a:hover {
+            background: #f1f5f9;
+            color: #4f46e5;
+        }
+
+        /* MAIN */
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        /* CARD */
+        .card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 20px;
+        }
+
+        /* HEADER */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .section-header h2 {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        /* BUTTON */
+        .btn {
+            padding: 10px 14px;
+            background: #4f46e5;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: #4338ca;
+        }
+
+        /* TABLE */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            text-align: left;
+            font-size: 13px;
+            color: #64748b;
+            padding: 12px;
+        }
+
+        td {
+            padding: 12px;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        /* BADGE */
+        .status-active {
+            background: #dcfce7;
+            color: #15803d;
+            padding: 5px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+        }
+
+        /* CALENDAR */
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 16px;
+        }
+
+        .calendar-day {
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 14px;
+        }
+
+        .calendar-day-number {
+            font-weight: 800;
+            color: #4f46e5;
+        }
+
+        .session-item {
+            margin-top: 10px;
+            padding: 10px;
+            border-left: 3px solid #4f46e5;
+            background: #f1f5ff;
+            border-radius: 8px;
+        }
+
+        .session-type {
+            font-size: 11px;
+            padding: 3px 8px;
+            border-radius: 999px;
+            display: inline-block;
+            margin-top: 6px;
+        }
+
+        .online {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .face {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        /* MODAL */
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 24px;
+            border-radius: 16px;
+            width: 400px;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 8px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+
+        /* MOBILE */
+        @media (max-width: 768px) {
+            .dashboard-container {
+                grid-template-columns: 1fr;
+                padding: 20px;
+            }
+
+            .sidebar {
+                position: static;
+            }
+
+            .navbar {
+                padding: 16px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="navbar">
+    <a href="/" class="logo">TutorMatch</a>
+    <div class="nav-links">
+        <a href="/subject-list">Subjects</a>
+        <a href="#">Tutors</a>
+        <a href="#">About</a>
+        <a class="login" href="/logout">Logout</a>
+    </div>
+</div>
+
+<div class="dashboard-container">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <h2>Dashboard</h2>
+        <a href="#lessons">Lessons</a>
+        <a href="#calendar">Sessions</a>
+        <a href="#students">Students</a>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main-content">
+
+        <!-- LESSONS -->
+        <div id="lessons" class="card">
+            <div class="section-header">
+                <h2>My Lessons</h2>
+                <button class="btn" onclick="toggleModal()">Add Lesson</button>
+            </div>
+
+            <table>
+                <thead>
+                <tr>
+                    <th>Lesson</th>
+                    <th>Subject</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="lesson : ${lessons}">
+                    <td th:text="${lesson.name}"></td>
+                    <td th:text="${lesson.subject}"></td>
+                    <td><span class="status-active" th:text="${lesson.status}"></span></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- CALENDAR -->
+        <div id="calendar" class="card">
+            <div class="section-header">
+                <h2>Upcoming Sessions</h2>
+            </div>
+
+            <div class="calendar-grid">
+                <div class="calendar-day" th:each="entry : ${sessionsByDate}">
+                    <div class="calendar-day-number"
+                         th:text="${#temporals.format(entry.key, 'dd')}"></div>
+
+                    <div th:each="session : ${entry.value}" class="session-item">
+                        <div th:text="${session.time}"></div>
+                        <div th:text="${session.subject}"></div>
+
+                        <div class="session-type"
+                             th:classappend="${session.mode == 'ONLINE'} ? 'online' : 'face'">
+                            <span th:text="${session.mode}"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- STUDENTS -->
+        <div id="students" class="card">
+            <div class="section-header">
+                <h2>My Students</h2>
+            </div>
+
+            <table>
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Subject</th>
+                    <th>Progress</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="student : ${students}">
+                    <td th:text="${student.name}"></td>
+                    <td th:text="${student.subject}"></td>
+                    <td th:text="${student.progress}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </main>
+</div>
+
+<!-- MODAL -->
+<div id="modal" class="modal">
+    <div class="modal-content">
+        <h3>Add Lesson</h3>
+        <input type="text" placeholder="Title">
+        <textarea placeholder="Description"></textarea>
+        <button class="btn">Save</button>
+    </div>
+</div>
+
+<script>
+    function toggleModal() {
+        const modal = document.getElementById("modal");
+        modal.style.display = modal.style.display === "flex" ? "none" : "flex";
+    }
+
+    window.onclick = e => {
+        if (e.target.classList.contains("modal")) {
+            e.target.style.display = "none";
+        }
+    }
+</script>
+
+</body>
+</html>

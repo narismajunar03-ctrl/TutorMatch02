@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TutorMatch - Subject Detail</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+/* (YOUR EXISTING CSS — unchanged for brevity, keep yours here) */
+body {
+  background: #f8fafc;
+  font-family: Inter;
+  margin: 0;
+  color: #0f172a;
+}
+
+.navbar, .breadcrumb, .header, .container {
+  padding: 20px 64px;
+  background: white;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+}
+
+.section {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  margin-bottom: 16px;
+}
+
+.tutor-card {
+  background: #f8fafc;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.tutor-card img {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  margin-bottom: 8px;
+}
+
+.price-box {
+  background: #4f46e5;
+  color: white;
+  padding: 20px;
+  border-radius: 12px;
+  text-align: center;
+}
+
+.btn {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.btn-primary {
+  background: #4f46e5;
+  color: white;
+}
+
+.btn-outline {
+  background: white;
+  border: 2px solid #4f46e5;
+  color: #4f46e5;
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAV -->
+<div class="navbar">
+  <h2 style="color:#4f46e5;">TutorMatch</h2>
+</div>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <a href="/subjects">← Back</a>
+  <span id="breadcrumbName"></span>
+</div>
+
+<!-- HEADER -->
+<div class="header">
+  <div>
+    <h1 id="subjectName">Loading...</h1>
+    <p id="subjectDesc"></p>
+    <span id="modeBadge"></span>
+  </div>
+
+  <div>
+    <div><b id="sessionCount"></b> hrs</div>
+  </div>
+</div>
+
+<!-- CONTENT -->
+<div class="container">
+  <div class="content-grid">
+
+    <!-- LEFT -->
+    <div>
+
+      <div class="section">
+        <h3>Overview</h3>
+        <p id="fullDescription"></p>
+      </div>
+
+      <div class="section">
+        <h3>Topics</h3>
+        <ul id="topicsList"></ul>
+      </div>
+
+      <div class="section">
+        <h3>Available Tutors</h3>
+        <div id="tutorsList"></div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT SIDEBAR -->
+    <div>
+
+      <div class="price-box">
+        <h3>Price</h3>
+        <h2 id="priceRange"></h2>
+      </div>
+
+      <button class="btn btn-primary">Book Session</button>
+      <button class="btn btn-outline">Contact Tutor</button>
+
+      <div style="margin-top:20px;">
+        <p><b>Mode:</b> <span id="modeInfo"></span></p>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<script>
+async function loadLessonDetail() {
+
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get("id");
+
+  const res = await fetch("http://localhost:8080/tutor-match/lessons/" + id);
+  const data = await res.json();
+
+  // HEADER
+  document.getElementById("subjectName").textContent = data.lesson;
+  document.getElementById("breadcrumbName").textContent = data.lesson;
+  document.getElementById("subjectDesc").textContent = data.description;
+  document.getElementById("sessionCount").textContent = data.hours;
+  document.getElementById("modeInfo").textContent = data.mode;
+
+  // FULL DESCRIPTION
+  document.getElementById("fullDescription").textContent = data.description;
+
+  // TOPICS (placeholder for now)
+  document.getElementById("topicsList").innerHTML = `
+    <li>Fundamentals</li>
+    <li>Intermediate</li>
+    <li>Advanced Concepts</li>
+  `;
+
+  // PRICE
+  document.getElementById("priceRange").textContent = "₱" + data.rate;
+
+  // TUTOR CARD (with image)
+  document.getElementById("tutorsList").innerHTML = `
+    <div class="tutor-card">
+      <img src="https://i.pravatar.cc/100?img=12">
+      <h4>Assigned Tutor</h4>
+      <p>★★★★★</p>
+      <p>₱${data.rate}/session</p>
+      <small>${data.mode}</small>
+    </div>
+  `;
+}
+
+loadLessonDetail();
+</script>
+
+</body>
+</html>

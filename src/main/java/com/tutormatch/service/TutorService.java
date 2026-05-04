@@ -12,12 +12,12 @@ import org.springframework.stereotype.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.tutormatch.config.SecurityConfig;
+import com.tutormatch.dto.DocumentType;
 import com.tutormatch.dto.TutorRegistrationRequest;
+import com.tutormatch.jpa.repository.DocumentRepository;
+import com.tutormatch.jpa.repository.TutorRepository;
 import com.tutormatch.model.DocumentModel;
-import com.tutormatch.model.DocumentType;
 import com.tutormatch.model.TutorModel;
-import com.tutormatch.repository.DocumentRepository;
-import com.tutormatch.repository.TutorRepository;
 
 @Service
 public class TutorService {

@@ -28,14 +28,22 @@ public class SecurityConfig {
 		http
 		.csrf(csrf -> csrf.disable()) // ✅ FIX NA KULANG
 				.authorizeHttpRequests(auth -> auth
-						.requestMatchers( "/", 
+						.requestMatchers(   "/",
+							    "/static/**",
+							    "/css/**",
+							    "/js/**",
+							    "/images/**",
 							    "/login", 
 							    "/student-registration",
 							    "/tutor-registration",
 							    "/users/student-registration",
 							    "/users/tutor-registration",
-							    "/css/**", 
-							    "/js/**").permitAll()
+							    "/lesson-registration",
+							    "/tutor-match/lessons/**",
+							    "/lesson-detail",
+							    "/lesson-list",
+							    "/lesson-detail.html",
+							    "/lesson-list.html").permitAll()
 						.anyRequest().authenticated()
 				)
 				.formLogin(form -> form

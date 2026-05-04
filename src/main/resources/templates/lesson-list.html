@@ -1,0 +1,131 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TutorMatch - Subjects</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/subject-list.css">
+
+</head>
+
+<body>
+
+<div class="navbar">
+  <a class="logo" href="#">TutorMatch</a>
+  <div class="nav-links">
+    <a href="#">Subjects</a>
+    <a href="#">Tutors</a>
+    <a href="#">About</a>
+  </div>
+</div>
+
+<div class="header">
+  <h1>List of Subjects</h1>
+  <p>Find tutors by subject, learning mode, and price range</p>
+</div>
+
+<div class="filter-box">
+
+  <input type="text" id="search" class="search-input" placeholder="Search subjects (e.g. Math, Python)">
+
+  <div class="filter-row">
+
+    <div class="checkbox-group">
+      <label><input type="checkbox" value="online" class="mode"> Online</label>
+      <label><input type="checkbox" value="f2f" class="mode"> Face-to-Face</label>
+    </div>
+
+    <div style="display:flex; align-items:center;">
+      <div class="price-range">
+        <input type="number" id="minPrice" placeholder="Min ₱">
+        <span>-</span>
+        <input type="number" id="maxPrice" placeholder="Max ₱">
+      </div>
+      <span class="clear-btn" onclick="clearFilters()">Clear</span>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="container">
+  <div class="grid" id="grid"></div>
+</div>
+
+<script>
+let data = [];
+
+async function loadLessons() {
+  const res = await fetch("http://localhost:8080/tutor-match/lessons");
+  data = await res.json();
+  render(data);
+}
+
+loadLessons();
+
+const grid = document.getElementById("grid");
+
+function getModeLabel(mode){
+  if(mode === "online") return "Online";
+  if(mode === "f2f") return "Face-to-Face";
+  return "Online & Face-to-Face";
+}
+
+function render(list){
+	  grid.innerHTML = list.map(item => `
+	    <div class="card">
+	      <div class="badge ${item.mode}">${getModeLabel(item.mode)}</div>
+	      <div class="subject">${item.lesson}</div>
+	      <div class="price">₱${item.rate}/session</div>
+	      <div class="sessions">${item.hours} hours</div>
+	      <div class="desc">${truncate(item.description, 30)}</div>
+	      <a th:href="@{'/tutor-match/detail/' + ${item.id}}" class="btn">
+	      View Details
+	  </a>
+	    </div>
+	  `).join("");
+	}
+
+function filter(){
+  	const search = document.getElementById("search").value.toLowerCase();
+  	const min = parseInt(document.getElementById("minPrice").value) || 0;
+  	const max = parseInt(document.getElementById("maxPrice").value) || 999999;
+
+  	const modes = [...document.querySelectorAll(".mode:checked")].map(m => m.value);
+
+  	const result = data.filter(item => {
+	const matchSearch = item.lesson.toLowerCase().includes(search);
+	const matchPrice = item.rate >= min && item.rate <= max;
+    const matchMode = modes.length ? (modes.includes(item.mode) || item.mode === "both") : true;
+
+    return matchSearch && matchPrice && matchMode;
+  });
+
+  render(result);
+}
+
+function clearFilters(){
+  document.getElementById("search").value = "";
+  document.getElementById("minPrice").value = "";
+  document.getElementById("maxPrice").value = "";
+  document.querySelectorAll(".mode").forEach(cb => cb.checked = false);
+  render(data);
+}
+
+document.querySelectorAll("input").forEach(el => {
+  el.addEventListener("input", filter);
+  el.addEventListener("change", filter);
+});
+
+function truncate(text, limit = 30) {
+	  if (!text) return "";
+	  return text.length > limit ? text.substring(0, limit) + "..." : text;
+	}
+
+render(data);
+</script>
+
+</body>
+</html>

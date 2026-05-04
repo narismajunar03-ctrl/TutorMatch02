@@ -2,6 +2,7 @@ package com.tutormatch.model;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.tutormatch.dto.DocumentType;
 
 import jakarta.persistence.*;
 

@@ -2,7 +2,7 @@ package com.tutormatch.controller;
 
 import org.springframework.web.bind.annotation.*;
 
-import com.tutormatch.repository.TutorRepository;
+import com.tutormatch.jpa.repository.TutorRepository;
 
 @RestController
 @RequestMapping("/check")
@@ -16,8 +16,6 @@ public class ValidationController {
 	
 	@GetMapping("/tutor-email")
 	public boolean checkTutorEmail(@RequestParam String email) {
-
-		System.out.println("GET ET AW");
 		return tutorRepository.existsByEmail(email);
 	}
 

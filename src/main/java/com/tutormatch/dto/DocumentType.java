@@ -1,4 +1,4 @@
-package com.tutormatch.model;
+package com.tutormatch.dto;
 
 public enum DocumentType {
 	

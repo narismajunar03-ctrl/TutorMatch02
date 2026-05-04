@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TutorMatch - Admin Dashboard</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/css/admin-dashboard.css">
+</head>
+
+<body>
+
+<div class="navbar">
+  <a class="logo" href="/">TutorMatch</a>
+  <div class="nav-links">
+    <a href="#">Dashboard</a>
+    <a href="#">Reports</a>
+    <a href="#">Settings</a>
+    <a href="/login">Logout</a>
+  </div>
+</div>
+
+<div class="header">
+  <h1>Admin Dashboard</h1>
+  <p>Manage students, tutors, and platform operations</p>
+</div>
+
+<!-- TAB NAVIGATION -->
+<div class="tabs-container">
+  <button class="tab-btn active" onclick="switchTab('dashboard')">📊 Dashboard</button>
+  <button class="tab-btn" onclick="switchTab('students')">👨‍🎓 Students</button>
+  <button class="tab-btn" onclick="switchTab('tutors')">👨‍🏫 Tutors</button>
+  <button class="tab-btn" onclick="switchTab('approvals')">✓ Approvals</button>
+  <button class="tab-btn" onclick="switchTab('reports')">📈 Reports</button>
+</div>
+
+<!-- DASHBOARD TAB -->
+<div id="dashboard" class="tab-content active">
+  <div class="container">
+    <div class="grid">
+      <div class="card">
+        <div class="stat-value">156</div>
+        <div class="stat-label">Total Students</div>
+        <button class="btn" onclick="switchTab('students')">Manage Students</button>
+      </div>
+      <div class="card">
+        <div class="stat-value">42</div>
+        <div class="stat-label">Total Tutors</div>
+        <button class="btn" onclick="switchTab('tutors')">Manage Tutors</button>
+      </div>
+      <div class="card">
+        <div class="stat-value">8</div>
+        <div class="stat-label">Pending Approvals</div>
+        <button class="btn" onclick="switchTab('approvals')">View Approvals</button>
+      </div>
+      <div class="card">
+        <div class="stat-value">328</div>
+        <div class="stat-label">Active Sessions</div>
+        <button class="btn" onclick="switchTab('reports')">View Reports</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-section">
+    <h2>Recent Students</h2>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Status</th>
+          <th>Joined</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>#001</td>
+          <td>Maria Santos</td>
+          <td>maria@email.com</td>
+          <td><span class="status-badge status-active">Active</span></td>
+          <td>2024-01-15</td>
+        </tr>
+        <tr>
+          <td>#002</td>
+          <td>Juan Dela Cruz</td>
+          <td>juan@email.com</td>
+          <td><span class="status-badge status-active">Active</span></td>
+          <td>2024-01-18</td>
+        </tr>
+        <tr>
+          <td>#003</td>
+          <td>Ana Rodriguez</td>
+          <td>ana@email.com</td>
+          <td><span class="status-badge status-inactive">Inactive</span></td>
+          <td>2024-02-01</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="table-section">
+    <h2>Recent Tutors</h2>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Subject</th>
+          <th>Status</th>
+          <th>Sessions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>#T001</td>
+          <td>Dr. Miguel Santos</td>
+          <td>Mathematics</td>
+          <td><span class="status-badge status-active">Active</span></td>
+          <td>45</td>
+        </tr>
+        <tr>
+          <td>#T002</td>
+          <td>Prof. Lisa Chen</td>
+          <td>English</td>
+          <td><span class="status-badge status-active">Active</span></td>
+          <td>32</td>
+        </tr>
+        <tr>
+          <td>#T003</td>
+          <td>Dev Sharma</td>
+          <td>Programming</td>
+          <td><span class="status-badge status-pending">Pending</span></td>
+          <td>0</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- STUDENTS TAB -->
+<div id="students" class="tab-content">
+  <div class="filter-box">
+    <input type="text" id="studentSearch" class="search-input" placeholder="Search by name, email..." onkeyup="filterStudents()">
+    <button class="btn btn-primary" onclick="openAddStudentModal()" style="width: 100%;">+ Add New Student</button>
+  </div>
+
+  <div class="table-section">
+    <h2>Student List</h2>
+    <table class="data-table" id="studentTable">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Contact</th>
+          <th>Status</th>
+          <th>Sessions</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="studentTableBody">
+        <tr>
+          <td>#S001</td>
+          <td>Maria Santos</td>
+          <td>maria@email.com</td>
+          <td>+63 912 345 6789</td>
+          <td><span class="status-badge status-active">Active</span></td>
+          <td>12</td>
+          <td>
+            <div class="action-buttons">
+              <button class="btn-small btn-edit" onclick="editStudent(1)">Edit</button>
+              <button class="btn-small btn-delete" onclick="deleteStudent(1)">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>#S002</td>
+          <td>Juan Dela Cruz</td>
+          <td>juan@email.com</td>
+          <td>+63 912 345 6790</td>
+          <td><span class="status-badge status-active">Active</span></td>
+          <td>8</td>
+          <td>
+            <div class="action-buttons">
+              <button class="btn-small btn-edit" onclick="editStudent(2)">Edit</button>
+              <button class="btn-small btn-delete" onclick="deleteStudent(2)">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>#S003</td>
+          <td>Ana Rodriguez</td>
+          <td>ana@email.com</td>
+          <td>+63 912 345 6791</td>
+          <td><span class="status-badge status-inactive">Inactive</span></td>
+          <td>5</td>
+          <td>
+            <div class="action-buttons">
+              <button class="btn-small btn-edit" onclick="editStudent(3)">Edit</button>
+              <button class="btn-small btn-delete" onclick="deleteStudent(3)">Delete</button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- TUTORS TAB -->
+<div id="tutors" class="tab-content">
+  <div class="filter-box">
+    <input type="text" id="tutorSearch" class="search-input" placeholder="Search by name, subject..." onkeyup="filterTutors()">
+    <button class="btn btn-primary" onclick="openAddTutorModal()" style="width: 100%;">+ Add New Tutor</button>
+  </div>
+
+  <div class="table-section">
+    <h2>Tutor List</h2>
+    <table class="data-table" id="tutorTable">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Subject</th>
+          <th>Rating</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="tutorTableBody">
+        <tr>
+          <td>#T001</td>
+          <td>Dr. Miguel Santos</td>
+          <td>miguel@email.com</td>
+          <td>Mathematics</td>
+          <td>⭐ 4.9</td>
+          <td><span class="status-badge status-active">Active</span></td>
+          <td>
+            <div class="action-buttons">
+              <button class="btn-small btn-edit" onclick="editTutor(1)">Edit</button>
+              <button class="btn-small btn-delete" onclick="deleteTutor(1)">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>#T002</td>
+          <td>Prof. Lisa Chen</td>
+          <td>lisa@email.com</td>
+          <td>English</td>
+          <td>⭐ 4.8</td>
+          <td><span class="status-badge status-active">Active</span></td>
+          <td>
+            <div class="action-buttons">
+              <button class="btn-small btn-edit" onclick="editTutor(2)">Edit</button>
+              <button class="btn-small btn-delete" onclick="deleteTutor(2)">Delete</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>#T003</td>
+          <td>Dev Sharma</td>
+          <td>dev@email.com</td>
+          <td>Programming</td>
+          <td>⭐ 4.7</td>
+          <td><span class="status-badge status-active">Active</span></td>
+          <td>
+            <div class="action-buttons">
+              <button class="btn-small btn-edit" onclick="editTutor(3)">Edit</button>
+              <button class="btn-small btn-delete" onclick="deleteTutor(3)">Delete</button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- APPROVALS TAB -->
+<div id="approvals" class="tab-content">
+  <div class="table-section">
+    <h2>Pending Tutor Applications</h2>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Subject</th>
+          <th>Experience</th>
+          <th>Applied Date</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>#T004</td>
+          <td>Dev Sharma</td>
+          <td>dev@email.com</td>
+          <td>Programming</td>
+          <td>5 years</td>
+          <td>2024-03-01</td>
+          <td>
+            <div class="action-buttons">
+              <button class="btn-small btn-approve" onclick="approveTutor(4)">Approve</button>
+              <button class="btn-small btn-reject" onclick="rejectTutor(4)">Reject</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>#T005</td>
+          <td>Emma Wilson</td>
+          <td>emma@email.com</td>
+          <td>Science</td>
+          <td>3 years</td>
+          <td>2024-03-02</td>
+          <td>
+            <div class="action-buttons">
+              <button class="btn-small btn-approve" onclick="approveTutor(5)">Approve</button>
+              <button class="btn-small btn-reject" onclick="rejectTutor(5)">Reject</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>#T006</td>
+          <td>James Park</td>
+          <td>james@email.com</td>
+          <td>History</td>
+          <td>2 years</td>
+          <td>2024-03-03</td>
+          <td>
+            <div class="action-buttons">
+              <button class="btn-small btn-approve" onclick="approveTutor(6)">Approve</button>
+              <button class="btn-small btn-reject" onclick="rejectTutor(6)">Reject</button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="table-section">
+    <h2>Pending Student Verifications</h2>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Age</th>
+          <th>Registered</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>#S004</td>
+          <td>Pedro Santos</td>
+          <td>pedro@email.com</td>
+          <td>18</td>
+          <td>2024-03-01</td>
+          <td>
+            <div class="action-buttons">
+              <button class="btn-small btn-approve" onclick="approveStudent(4)">Approve</button>
+              <button class="btn-small btn-reject" onclick="rejectStudent(4)">Reject</button>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>#S005</td>
+          <td>Sophie Martin</td>
+          <td>sophie@email.com</td>
+          <td>20</td>
+          <td>2024-03-02</td>
+          <td>
+            <div class="action-buttons">
+              <button class="btn-small btn-approve" onclick="approveStudent(5)">Approve</button>
+              <button class="btn-small btn-reject" onclick="rejectStudent(5)">Reject</button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- REPORTS TAB -->
+<div id="reports" class="tab-content">
+  <div class="container">
+    <div class="grid">
+      <div class="card">
+        <div class="stat-value">1,245</div>
+        <div class="stat-label">Total Sessions Completed</div>
+      </div>
+      <div class="card">
+        <div class="stat-value">₱156,800</div>
+        <div class="stat-label">Total Revenue</div>
+      </div>
+      <div class="card">
+        <div class="stat-value">4.8⭐</div>
+        <div class="stat-label">Average Rating</div>
+      </div>
+      <div class="card">
+        <div class="stat-value">92%</div>
+        <div class="stat-label">Completion Rate</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-section">
+    <h2>Top Tutors by Revenue</h2>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Tutor Name</th>
+          <th>Sessions Completed</th>
+          <th>Revenue</th>
+          <th>Rating</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>Dr. Miguel Santos</td>
+          <td>145</td>
+          <td>₱29,000</td>
+          <td>4.9⭐</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Prof. Lisa Chen</td>
+          <td>128</td>
+          <td>₱25,600</td>
+          <td>4.8⭐</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>Dev Sharma</td>
+          <td>98</td>
+          <td>₱29,400</td>
+          <td>4.7⭐</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<!-- ADD/EDIT STUDENT MODAL -->
+<div id="studentModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeStudentModal()">&times;</span>
+    <h2 id="studentModalTitle">Add Student</h2>
+    <form class="modal-form" onsubmit="handleStudentSubmit(event)">
+      <div class="form-group">
+        <label for="studentName">Full Name *</label>
+        <input type="text" id="studentName" required>
+      </div>
+
+      <div class="form-group">
+        <label for="studentEmail">Email *</label>
+        <input type="email" id="studentEmail" required>
+      </div>
+
+      <div class="form-group">
+        <label for="studentContact">Contact Number *</label>
+        <input type="tel" id="studentContact" required>
+      </div>
+
+      <div class="form-group">
+        <label for="studentStatus">Status *</label>
+        <select id="studentStatus" required>
+          <option value="active">Active</option>
+          <option value="inactive">Inactive</option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Save Student</button>
+    </form>
+  </div>
+</div>
+
+<!-- ADD/EDIT TUTOR MODAL -->
+<div id="tutorModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeTutorModal()">&times;</span>
+    <h2 id="tutorModalTitle">Add Tutor</h2>
+    <form class="modal-form" onsubmit="handleTutorSubmit(event)">
+      <div class="form-group">
+        <label for="tutorName">Full Name *</label>
+        <input type="text" id="tutorName" required>
+      </div>
+
+      <div class="form-group">
+        <label for="tutorEmail">Email *</label>
+        <input type="email" id="tutorEmail" required>
+      </div>
+
+      <div class="form-group">
+        <label for="tutorSubject">Subject *</label>
+        <input type="text" id="tutorSubject" required>
+      </div>
+
+      <div class="form-group">
+        <label for="tutorRate">Hourly Rate (₱) *</label>
+        <input type="number" id="tutorRate" required>
+      </div>
+
+      <div class="form-group">
+        <label for="tutorStatus">Status *</label>
+        <select id="tutorStatus" required>
+          <option value="active">Active</option>
+          <option value="inactive">Inactive</option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Save Tutor</button>
+    </form>
+  </div>
+</div>
+
+<script>
+// Tab switching
+function switchTab(tabName) {
+  // Hide all tabs
+  const tabs = document.querySelectorAll('.tab-content');
+  tabs.forEach(tab => tab.classList.remove('active'));
+
+  // Remove active class from buttons
+  const buttons = document.querySelectorAll('.tab-btn');
+  buttons.forEach(btn => btn.classList.remove('active'));
+
+  // Show selected tab
+  const selectedTab = document.getElementById(tabName);
+  if (selectedTab) {
+    selectedTab.classList.add('active');
+  }
+
+  // Mark button as active
+  event.target.classList.add('active');
+}
+
+// Student Modal Functions
+function openAddStudentModal() {
+  document.getElementById('studentModal').style.display = 'block';
+  document.getElementById('studentModalTitle').textContent = 'Add Student';
+}
+
+function closeStudentModal() {
+  document.getElementById('studentModal').style.display = 'none';
+}
+
+function editStudent(id) {
+  document.getElementById('studentModal').style.display = 'block';
+  document.getElementById('studentModalTitle').textContent = 'Edit Student';
+  document.getElementById('studentName').value = 'Student Name ' + id;
+  document.getElementById('studentEmail').value = 'student' + id + '@email.com';
+}
+
+function handleStudentSubmit(event) {
+  event.preventDefault();
+  const name = document.getElementById('studentName').value;
+  alert('Student saved: ' + name);
+  closeStudentModal();
+}
+
+function deleteStudent(id) {
+  if (confirm('Are you sure you want to delete this student?')) {
+    alert('Student #S' + id + ' deleted successfully');
+  }
+}
+
+function filterStudents() {
+  const input = document.getElementById('studentSearch').value.toLowerCase();
+  const rows = document.querySelectorAll('#studentTableBody tr');
+  rows.forEach(row => {
+    const text = row.textContent.toLowerCase();
+    row.style.display = text.includes(input) ? '' : 'none';
+  });
+}
+
+// Tutor Modal Functions
+function openAddTutorModal() {
+  document.getElementById('tutorModal').style.display = 'block';
+  document.getElementById('tutorModalTitle').textContent = 'Add Tutor';
+}
+
+function closeTutorModal() {
+  document.getElementById('tutorModal').style.display = 'none';
+}
+
+function editTutor(id) {
+  document.getElementById('tutorModal').style.display = 'block';
+  document.getElementById('tutorModalTitle').textContent = 'Edit Tutor';
+  document.getElementById('tutorName').value = 'Tutor Name ' + id;
+  document.getElementById('tutorEmail').value = 'tutor' + id + '@email.com';
+}
+
+function handleTutorSubmit(event) {
+  event.preventDefault();
+  const name = document.getElementById('tutorName').value;
+  alert('Tutor saved: ' + name);
+  closeTutorModal();
+}
+
+function deleteTutor(id) {
+  if (confirm('Are you sure you want to delete this tutor?')) {
+    alert('Tutor #T' + id + ' deleted successfully');
+  }
+}
+
+function filterTutors() {
+  const input = document.getElementById('tutorSearch').value.toLowerCase();
+  const rows = document.querySelectorAll('#tutorTableBody tr');
+  rows.forEach(row => {
+    const text = row.textContent.toLowerCase();
+    row.style.display = text.includes(input) ? '' : 'none';
+  });
+}
+
+// Approval Functions
+function approveTutor(id) {
+  if (confirm('Approve tutor #T' + id + '?')) {
+    alert('Tutor #T' + id + ' approved successfully!');
+  }
+}
+
+function rejectTutor(id) {
+  if (confirm('Reject tutor #T' + id + '?')) {
+    alert('Tutor #T' + id + ' rejected.');
+  }
+}
+
+function approveStudent(id) {
+  if (confirm('Approve student #S' + id + '?')) {
+    alert('Student #S' + id + ' approved successfully!');
+  }
+}
+
+function rejectStudent(id) {
+  if (confirm('Reject student #S' + id + '?')) {
+    alert('Student #S' + id + ' rejected.');
+  }
+}
+
+// Close modals when clicking outside
+window.onclick = function(event) {
+  const studentModal = document.getElementById('studentModal');
+  const tutorModal = document.getElementById('tutorModal');
+
+  if (event.target == studentModal) {
+    studentModal.style.display = 'none';
+  }
+  if (event.target == tutorModal) {
+    tutorModal.style.display = 'none';
+  }
+}
+</script>
+
+</body>
+</html>
+

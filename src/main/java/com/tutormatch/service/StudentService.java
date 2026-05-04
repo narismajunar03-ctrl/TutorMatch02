@@ -3,8 +3,8 @@ package com.tutormatch.service;
 
 import org.springframework.stereotype.Service;
 
+import com.tutormatch.jpa.repository.StudentRepository;
 import com.tutormatch.model.StudentModel;
-import com.tutormatch.repository.StudentRepository;
 
 
 
